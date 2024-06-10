@@ -37,9 +37,20 @@ import {
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
+/*
+*
+* */
+
+import { Authenticator } from '@aws-amplify/ui-react';
+import { Amplify } from 'aws-amplify';
+import outputs from '@/amplify_outputs.json';
+import '@aws-amplify/ui-react/styles.css';
+
 
 function App() {
   return (
+      <Authenticator>
+        {({ signOut, user }) => (
     <BrowserRouter>
       <GitHubBanner />
       <RefineKbarProvider>
@@ -52,7 +63,6 @@ function App() {
                 dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
                 notificationProvider={notificationProvider}
                 routerProvider={routerBindings}
-                authProvider={authProvider}
                 resources={[
                   {
                     name: "blog_posts",
@@ -113,23 +123,6 @@ function App() {
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
-                  <Route
-                    element={
-                      <Authenticated
-                        key="authenticated-outer"
-                        fallback={<Outlet />}
-                      >
-                        <NavigateToResource />
-                      </Authenticated>
-                    }
-                  >
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route
-                      path="/forgot-password"
-                      element={<ForgotPassword />}
-                    />
-                  </Route>
                 </Routes>
 
                 <RefineKbar />
@@ -142,6 +135,8 @@ function App() {
         </ColorModeContextProvider>
       </RefineKbarProvider>
     </BrowserRouter>
+        )}
+      </Authenticator>
   );
 }
 

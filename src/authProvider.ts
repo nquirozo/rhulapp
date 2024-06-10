@@ -1,5 +1,9 @@
 import type { AuthProvider } from "@refinedev/core";
+import { Amplify } from "aws-amplify"
+import { signUp } from "aws-amplify/auth"
+//import outputs from "../amplify_outputs.json"
 
+Amplify.configure(outputs)
 export const TOKEN_KEY = "refine-auth";
 
 export const authProvider: AuthProvider = {
